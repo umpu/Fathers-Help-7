@@ -8,18 +8,16 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var toggle = true
+    @State private var mode = true
     @Namespace private var namespaceID
     
     var body: some View {
         VStack {
-            if toggle {
+            if mode {
                 ZStack(alignment: .bottomTrailing) {
                     Rectangle().foregroundStyle(.clear)
                     Button {
-                        withAnimation() {
-                            toggle.toggle()
-                        }
+                        mode.toggle()
                     } label: {
                         Text("Open")
                             .matchedGeometryEffect(id: "button", in: namespaceID)
@@ -33,8 +31,6 @@ struct ContentView: View {
                             }
                     }
                 }
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .padding()
             } else {
                 ZStack(alignment: .topLeading) {
                     RoundedRectangle(cornerRadius: 12)
@@ -42,20 +38,21 @@ struct ContentView: View {
                         .frame(width: 300, height: 400)
                         .foregroundStyle(.blue)
                     Button {
-                        withAnimation() {
-                            toggle.toggle()
-                        }
+                        mode.toggle()
                     } label: {
                         Label("Back", systemImage: "arrowshape.backward.fill")
                             .padding()
                             .foregroundStyle(.white)
                             .font(.title2)
-                            .fixedSize(horizontal: true, vertical: true)
+                            .fixedSize()
                             .matchedGeometryEffect(id: "button", in: namespaceID)
                     }
                 }
             }
         }
+        .padding()
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .animation(.default, value: mode)
     }
 }
 
