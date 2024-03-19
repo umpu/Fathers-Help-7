@@ -8,14 +8,54 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State private var toggle = true
+    @Namespace private var namespaceID
+    
     var body: some View {
-        ZStack {
-            RoundedRectangle(cornerRadius: 25.0)
-                .foregroundStyle(.blue)
-                .aspectRatio(1.0, contentMode: .fit)
-            Text("Open")
+        VStack {
+            if toggle {
+                ZStack(alignment: .bottomTrailing) {
+                    Rectangle().foregroundStyle(.clear)
+                    Button {
+                        withAnimation() {
+                            toggle.toggle()
+                        }
+                    } label: {
+                        Text("Open")
+                            .matchedGeometryEffect(id: "button", in: namespaceID)
+                            .padding()
+                            .foregroundStyle(.white)
+                            .font(.title2)
+                            .background(alignment: .center) {
+                                RoundedRectangle(cornerRadius: 12)
+                                    .matchedGeometryEffect(id: "view", in: namespaceID)
+                                    .foregroundStyle(.blue)
+                            }
+                    }
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .padding()
+            } else {
+                ZStack(alignment: .topLeading) {
+                    RoundedRectangle(cornerRadius: 12)
+                        .matchedGeometryEffect(id: "view", in: namespaceID)
+                        .frame(width: 300, height: 400)
+                        .foregroundStyle(.blue)
+                    Button {
+                        withAnimation() {
+                            toggle.toggle()
+                        }
+                    } label: {
+                        Label("Back", systemImage: "arrowshape.backward.fill")
+                            .padding()
+                            .foregroundStyle(.white)
+                            .font(.title2)
+                            .fixedSize(horizontal: true, vertical: true)
+                            .matchedGeometryEffect(id: "button", in: namespaceID)
+                    }
+                }
+            }
         }
-        .border(Color.black, width: 1)
     }
 }
 
