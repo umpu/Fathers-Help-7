@@ -8,25 +8,27 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var mode = true
-    @Namespace private var namespaceID
+    @State private var presented = true
+    @Namespace private var transition
     
     var body: some View {
         VStack {
-            if mode {
+            if presented {
                 ZStack(alignment: .bottomTrailing) {
                     Rectangle().foregroundStyle(.clear)
                     Button {
-                        mode.toggle()
+                        presented.toggle()
                     } label: {
                         Text("Open")
-                            .matchedGeometryEffect(id: "button", in: namespaceID)
+                            .matchedGeometryEffect(id: "button", in: transition)
                             .padding()
                             .foregroundStyle(.white)
-                            .font(.title2)
+                            .font(.title3)
+                            .fontWeight(.semibold)
+                            .fontDesign(.rounded)
                             .background(alignment: .center) {
                                 RoundedRectangle(cornerRadius: 12)
-                                    .matchedGeometryEffect(id: "view", in: namespaceID)
+                                    .matchedGeometryEffect(id: "view", in: transition)
                                     .foregroundStyle(.blue)
                             }
                     }
@@ -34,25 +36,26 @@ struct ContentView: View {
             } else {
                 ZStack(alignment: .topLeading) {
                     RoundedRectangle(cornerRadius: 12)
-                        .matchedGeometryEffect(id: "view", in: namespaceID)
+                        .matchedGeometryEffect(id: "view", in: transition)
                         .frame(width: 300, height: 400)
                         .foregroundStyle(.blue)
                     Button {
-                        mode.toggle()
+                        presented.toggle()
                     } label: {
                         Label("Back", systemImage: "arrowshape.backward.fill")
-                            .padding()
+                            .fixedSize()
+                            .matchedGeometryEffect(id: "button", in: transition)
+                            .fontWeight(.semibold)
                             .foregroundStyle(.white)
                             .font(.title2)
-                            .fixedSize()
-                            .matchedGeometryEffect(id: "button", in: namespaceID)
+                            .fontDesign(.rounded)
+                            .padding()
                     }
                 }
             }
         }
         .padding()
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .animation(.default, value: mode)
+        .animation(.default, value: presented)
     }
 }
 
