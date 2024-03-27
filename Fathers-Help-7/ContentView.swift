@@ -7,6 +7,16 @@
 
 import SwiftUI
 
+extension SwiftUI.View {
+    public func customModifiers() -> some View {
+        self
+            .padding()
+            .foregroundStyle(.white)
+            .fontWeight(.semibold)
+            .fontDesign(.rounded)
+    }
+}
+
 struct ContentView: View {
     @State private var presented = true
     @Namespace private var transition
@@ -21,11 +31,8 @@ struct ContentView: View {
                     } label: {
                         Text("Open")
                             .matchedGeometryEffect(id: "button", in: transition)
-                            .padding()
-                            .foregroundStyle(.white)
                             .font(.title3)
-                            .fontWeight(.semibold)
-                            .fontDesign(.rounded)
+                            .customModifiers()
                             .background(alignment: .center) {
                                 RoundedRectangle(cornerRadius: 12)
                                     .matchedGeometryEffect(id: "view", in: transition)
@@ -45,11 +52,8 @@ struct ContentView: View {
                         Label("Back", systemImage: "arrowshape.backward.fill")
                             .fixedSize()
                             .matchedGeometryEffect(id: "button", in: transition)
-                            .fontWeight(.semibold)
-                            .foregroundStyle(.white)
                             .font(.title2)
-                            .fontDesign(.rounded)
-                            .padding()
+                            .customModifiers()
                     }
                 }
             }
